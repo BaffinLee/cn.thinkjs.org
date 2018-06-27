@@ -21,6 +21,7 @@ const fileSession = require('think-session-file');
 
 exports.session = {
   type: 'file',
+  maxAge: 24 * 3600 * 1000, // session 存活时间，单位毫秒
   common: {
     cookie: {
       name: 'thinkjs',
@@ -75,6 +76,17 @@ module.exports = class extends think.Controller {
 ```
 
 ### 常见问题
+
+#### 能不用全局的 session 配置吗？
+
+能，`session` 函数的第三个参数为配置项，会与 `think.config('session')` 值合并，例如：
+
+```js
+// 设置 session，存活时间为 3 天
+await this.session('name', 'value', {
+  maxAge: 3 * 24 * 3600 * 1000
+});
+```
 
 #### 一个请求下能操作不同类型的 session 么？
 
